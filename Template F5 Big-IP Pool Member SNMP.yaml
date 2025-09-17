@@ -1,0 +1,646 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 36bff6c29af64692839d077febfc7079
+      name: 'Templates/Network devices'
+  templates:
+    - uuid: 2ab863aef5f14cb1a6e85ecf54d8b2d5
+      template: 'Template F5 Big-IP Pool Member SNMP'
+      name: 'Template F5 Big-IP Pool Member SNMP'
+      description: |
+        MIBs used:
+        RFC1213-MIB
+        F5-BIGIP-LOCAL-MIB
+        F5-BIGIP-SYSTEM-MIB
+      groups:
+        - name: 'Templates/Network devices'
+      discovery_rules:
+        - uuid: 8fcafefa03874cdba07248c6dafdc557
+          name: 'Virtual server discovery'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#VSERVER.NAME},.1.3.6.1.4.1.3375.2.2.10.2.3.1.1]'
+          key: bigip.virtual_server.discovery
+          delay: 12h
+          lifetime: 30d
+          enabled_lifetime_type: DISABLE_NEVER
+          description: 'A table containing information of virtual servers.'
+          item_prototypes:
+            - uuid: dee2a23fe5b1441b93f5208e929dc6af
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}]: Current connections'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.2.10.2.3.1.12.{#SNMPINDEX}'
+              key: 'bigip.vserver.net.conn[{#VSERVER.NAME}]'
+              delay: 5m
+              history: 7d
+              description: |
+                MIB: F5-BIGIP-LOCAL-MIB
+                The current connections from client-side to the specified virtual server.
+              preprocessing:
+                - type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+            - uuid: d68bfc27e8ca4942a5f98ca6a5925bf4
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}]: Incoming traffic, rate'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.2.10.2.3.1.7.{#SNMPINDEX}'
+              key: 'bigip.vserver.net.in.bytes.rate[{#VSERVER.NAME}]'
+              delay: 5m
+              history: 7d
+              units: Bps
+              description: |
+                MIB: F5-BIGIP-LOCAL-MIB
+                The rate of bytes received by the specified virtual server from client-side.
+              preprocessing:
+                - type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+                - type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+            - uuid: 999fcbeefa3b46918c2c72b68debc273
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}]: Incoming packet, rate'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.2.10.2.3.1.6.{#SNMPINDEX}'
+              key: 'bigip.vserver.net.in.pkts.rate[{#VSERVER.NAME}]'
+              delay: 5m
+              history: 7d
+              units: pps
+              description: |
+                MIB: F5-BIGIP-LOCAL-MIB
+                The rate of packets received by the specified virtual server from client-side.
+              preprocessing:
+                - type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+                - type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+            - uuid: c26f3da7484d4dcd94c7c36f888175bc
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}]: Outgoing traffic, rate'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.2.10.2.3.1.9.{#SNMPINDEX}'
+              key: 'bigip.vserver.net.out.bytes.rate[{#VSERVER.NAME}]'
+              delay: 5m
+              history: 7d
+              units: Bps
+              description: |
+                MIB: F5-BIGIP-LOCAL-MIB
+                The rate of bytes sent to client-side from the specified virtual server.
+              preprocessing:
+                - type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+                - type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+            - uuid: 7e3015804c604125a0ae2a2f9631c568
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}]: Outgoing packet, rate'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.2.10.2.3.1.8.{#SNMPINDEX}'
+              key: 'bigip.vserver.net.out.pkts.rate[{#VSERVER.NAME}]'
+              delay: 5m
+              history: 7d
+              units: pps
+              description: |
+                MIB: F5-BIGIP-LOCAL-MIB
+                The rate of packets sent to client-side from the specified virtual server.
+              preprocessing:
+                - type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+                - type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+            - uuid: 264b0e1ddb8c42b2b0ba46e2e5fb2d8a
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}]: Connections hit a rate limit'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.2.10.2.3.1.34.{#SNMPINDEX}'
+              key: 'bigip.vserver.overlimit[{#VSERVER.NAME}]'
+              delay: 5m
+              history: 7d
+              description: |
+                MIB: F5-BIGIP-LOCAL-MIB
+                The last recorded value for the number of connections to the virtual server when connections hit a rate limit;
+                this calculation is only maintained if rate limiting is configured for the service.
+              preprocessing:
+                - type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+            - uuid: 94a3797a18ca45b599c6fb5c77aecbd6
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}]: Duration of exceeding rate limit'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.2.10.2.3.1.35.{#SNMPINDEX}'
+              key: 'bigip.vserver.overtime[{#VSERVER.NAME}]'
+              delay: 5m
+              history: 7d
+              units: s
+              description: |
+                MIB: F5-BIGIP-LOCAL-MIB
+                Duration of time in seconds the specified virtual server has exceeded the configured connection rate limit.
+              preprocessing:
+                - type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+            - uuid: d32181d9b4ec40eb817ece1a9697bc50
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}]: Usage ratio, avg 1m'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.2.10.2.3.1.32.{#SNMPINDEX}'
+              key: 'bigip.vserver.usage.1m[{#VSERVER.NAME}]'
+              delay: 5m
+              history: 7d
+              units: '%'
+              description: |
+                MIB: F5-BIGIP-LOCAL-MIB
+                The percentage of time Virtual Server was busy over the last 1 minute.
+              preprocessing:
+                - type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+            - uuid: 75bb1797535842b39cabd017ae344135
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}]: Usage ratio, avg 5m'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.2.10.2.3.1.33.{#SNMPINDEX}'
+              key: 'bigip.vserver.usage.5m[{#VSERVER.NAME}]'
+              delay: 5m
+              history: 7d
+              units: '%'
+              description: |
+                MIB: F5-BIGIP-LOCAL-MIB
+                The percentage of time Virtual Server was busy over the last 5 minutes.
+              preprocessing:
+                - type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+            - uuid: d53ceb67da204352bb3cf281163b93e2
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}]: Usage ratio, avg 5s'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.2.10.2.3.1.31.{#SNMPINDEX}'
+              key: 'bigip.vserver.usage.5s[{#VSERVER.NAME}]'
+              delay: 5m
+              history: 7d
+              units: '%'
+              description: |
+                MIB: F5-BIGIP-LOCAL-MIB
+                The percentage of time Virtual Server was busy over the last 5 seconds.
+              preprocessing:
+                - type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+          graph_prototypes:
+            - uuid: fb45eebe5dfd4d9ca857436647aa979d
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}] network'
+              graph_items:
+                - color: 1A7C11
+                  item:
+                    host: 'Template F5 Big-IP Pool Member SNMP'
+                    key: 'bigip.vserver.net.in.pkts.rate[{#VSERVER.NAME}]'
+                - sortorder: '1'
+                  color: 2774A4
+                  yaxisside: RIGHT
+                  item:
+                    host: 'Template F5 Big-IP Pool Member SNMP'
+                    key: 'bigip.vserver.net.in.bytes.rate[{#VSERVER.NAME}]'
+                - sortorder: '2'
+                  color: F63100
+                  item:
+                    host: 'Template F5 Big-IP Pool Member SNMP'
+                    key: 'bigip.vserver.net.out.pkts.rate[{#VSERVER.NAME}]'
+                - sortorder: '3'
+                  color: A54F10
+                  yaxisside: RIGHT
+                  item:
+                    host: 'Template F5 Big-IP Pool Member SNMP'
+                    key: 'bigip.vserver.net.out.bytes.rate[{#VSERVER.NAME}]'
+            - uuid: 58761866737141bfaf80c7ace4353d48
+              name: 'F5 BIG-IP: Virtual sever [{#VSERVER.NAME}] usage ratio'
+              graph_items:
+                - color: 1A7C11
+                  item:
+                    host: 'Template F5 Big-IP Pool Member SNMP'
+                    key: 'bigip.vserver.usage.5s[{#VSERVER.NAME}]'
+                - sortorder: '1'
+                  color: 2774A4
+                  item:
+                    host: 'Template F5 Big-IP Pool Member SNMP'
+                    key: 'bigip.vserver.usage.1m[{#VSERVER.NAME}]'
+                - sortorder: '2'
+                  color: F63100
+                  item:
+                    host: 'Template F5 Big-IP Pool Member SNMP'
+                    key: 'bigip.vserver.usage.5m[{#VSERVER.NAME}]'
+          preprocessing:
+            - type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 6h
+        - uuid: 5d45e6352e254761be4aa09350b17264
+          name: 'GTM Pool Member Stat Discovery'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.3375.2.3.6.7.2.1.9.1,{#STATUS},.1.3.6.1.4.1.3375.2.3.6.7.2.1.5.1]'
+          key: gtmPoolmemStatsName
+          delay: 12h
+          lifetime: 30d
+          enabled_lifetime_type: DISABLE_NEVER
+          item_prototypes:
+            - uuid: 45f74fb85f6944a48a9ee86584e56fe9
+              name: 'GTMPool Member {#SNMPVALUE} available'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.3.6.7.2.1.5.1.{#SNMPINDEX}'
+              key: 'gtmPoolmemStatusAvailState[{#SNMPVALUE}]'
+              delay: 5m
+              history: 7d
+              valuemap:
+                name: PoolStatusAvailState
+              tags:
+                - tag: Application
+                  value: 'GTM Pool Member Status'
+            - uuid: 8d07bb13f0844775938612dea8a681f8
+              name: 'GTMPool Member {#SNMPVALUE} enabled'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.3.6.7.2.1.6.1.{#SNMPINDEX}'
+              key: 'gtmPoolmemStatusenabledState[{#SNMPVALUE}]'
+              delay: 5m
+              history: 7d
+              valuemap:
+                name: PoolStatusEnabledState
+              tags:
+                - tag: Application
+                  value: 'GTM Pool Member Status'
+          trigger_prototypes:
+            - uuid: 2155dca25a974f498533c83ee376c3fc
+              expression: 'last(/Template F5 Big-IP Pool Member SNMP/gtmPoolmemStatusenabledState[{#SNMPVALUE}])=1 and last(/Template F5 Big-IP Pool Member SNMP/gtmPoolmemStatusAvailState[{#SNMPVALUE}])<>1'
+              name: 'GTM Pool Member {#SNMPVALUE} is not available in some capacity: {ITEM.VALUE2}'
+              opdata: '{ITEM.LASTVALUE1} , {ITEM.LASTVALUE2}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 5c31bb29623147ffbb704f7c3896cf51
+          name: 'GTM Pool Stat Discovery'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.3375.2.3.6.1.2.1.1.1,{#STATUS},1.3.6.1.4.1.3375.2.3.6.3.2.1.2.1]'
+          key: gtmPoolStatsName
+          delay: 12h
+          lifetime: 30d
+          enabled_lifetime_type: DISABLE_NEVER
+          item_prototypes:
+            - uuid: 30d73b81d2954b33be42da8cc0052132
+              name: 'GTMPool {#SNMPVALUE} available'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.3.6.3.2.1.2.1.{#SNMPINDEX}'
+              key: 'gtmPoolStatusAvailState[{#SNMPVALUE}]'
+              delay: 5m
+              history: 7d
+              valuemap:
+                name: PoolStatusAvailState
+              tags:
+                - tag: Application
+                  value: 'GTM Pool Status'
+            - uuid: 316348f833c44640849d31e51996cf21
+              name: 'GTMPool {#SNMPVALUE} enabled'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.3375.2.3.6.3.2.1.3.1.{#SNMPINDEX}'
+              key: 'gtmPoolStatusenabledState[{#SNMPVALUE}]'
+              delay: 5m
+              history: 7d
+              valuemap:
+                name: PoolStatusEnabledState
+              tags:
+                - tag: Application
+                  value: 'GTM Pool Status'
+          trigger_prototypes:
+            - uuid: a8a93f87475842cf91b7d939d09a843e
+              expression: 'last(/Template F5 Big-IP Pool Member SNMP/gtmPoolStatusenabledState[{#SNMPVALUE}])=1 and last(/Template F5 Big-IP Pool Member SNMP/gtmPoolStatusAvailState[{#SNMPVALUE}])<>1'
+              name: 'GTM Pool {#SNMPVALUE} is not available in some capacity: {ITEM.VALUE2}'
+              opdata: '{ITEM.LASTVALUE1} , {ITEM.LASTVALUE2}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: c4af6d434a774bee9b3b51449e315765
+          name: 'Pool status discovery'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},1.3.6.1.4.1.3375.2.2.5.5.2.1.1,{#STATUS},1.3.6.1.4.1.3375.2.2.5.5.2.1.2]'
+          key: ltmPoolStatusName
+          delay: 12h
+          filter:
+            conditions:
+              - macro: '{#STATUS}'
+                value: '3'
+                operator: NOT_MATCHES_REGEX
+                formulaid: A
+          enabled_lifetime_type: DISABLE_NEVER
+          item_prototypes:
+            - uuid: 654332af91b6401daf98072addd94d3f
+              name: 'Pool {#SNMPVALUE} available'
+              type: SNMP_AGENT
+              snmp_oid: '1.3.6.1.4.1.3375.2.2.5.5.2.1.2.{#SNMPINDEX}'
+              key: 'ltmPoolStatusAvailState[{#SNMPVALUE}]'
+              delay: 5m
+              history: 7d
+              valuemap:
+                name: PoolStatusAvailState
+              tags:
+                - tag: Application
+                  value: 'Pool Status'
+            - uuid: ccc582091aba4fe7b8e3c7d1c92303cf
+              name: 'Pool {#SNMPVALUE} enabled'
+              type: SNMP_AGENT
+              snmp_oid: '1.3.6.1.4.1.3375.2.2.5.5.2.1.3.{#SNMPINDEX}'
+              key: 'ltmPoolStatusEnabledState[{#SNMPVALUE}]'
+              delay: 15m
+              history: 7d
+              valuemap:
+                name: PoolStatusEnabledState
+              tags:
+                - tag: Application
+                  value: 'Pool Status'
+          trigger_prototypes:
+            - uuid: a392e52c55cf43cdaca1ad7a44ab7623
+              expression: 'last(/Template F5 Big-IP Pool Member SNMP/ltmPoolStatusEnabledState[{#SNMPVALUE}])=1 and last(/Template F5 Big-IP Pool Member SNMP/ltmPoolStatusAvailState[{#SNMPVALUE}])<>1'
+              name: 'Pool {#SNMPVALUE} is not available in some capacity: {ITEM.VALUE2}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 426b35a3e7384255ba1bfa8681b3891a
+          name: 'Virtual server status discovery'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},1.3.6.1.4.1.3375.2.2.10.13.2.1.1]'
+          key: ltmVsStatusName
+          delay: 12h
+          lifetime: 30d
+          enabled_lifetime_type: DISABLE_NEVER
+          description: 'The name of a virtual server.'
+          item_prototypes:
+            - uuid: 48b4638e41414e45baea25c3055eaf0f
+              name: 'Virtual server {#SNMPVALUE} availability'
+              type: SNMP_AGENT
+              snmp_oid: '1.3.6.1.4.1.3375.2.2.10.13.2.1.2.{#SNMPINDEX}'
+              key: 'ltmVsStatusAvailState[{#SNMPVALUE}]'
+              delay: 5m
+              history: 7d
+              trends: '0'
+              valuemap:
+                name: VsStatusAvailState
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+            - uuid: f49913278ac74c278603755cb268b66a
+              name: 'Virtual server {#SNMPVALUE} enabled'
+              type: SNMP_AGENT
+              snmp_oid: '1.3.6.1.4.1.3375.2.2.10.13.2.1.3.{#SNMPINDEX}'
+              key: 'ltmVsStatusEnabledState[{#SNMPVALUE}]'
+              delay: 15m
+              history: 7d
+              trends: '0'
+              valuemap:
+                name: VsStatusEnabledState
+              tags:
+                - tag: Application
+                  value: 'Virtual server [{#VSERVER.NAME}]'
+          trigger_prototypes:
+            - uuid: 9a7e8bf70d604eb1a760a31b00fece74
+              expression: 'last(/Template F5 Big-IP Pool Member SNMP/ltmVsStatusEnabledState[{#SNMPVALUE}])=1 and last(/Template F5 Big-IP Pool Member SNMP/ltmVsStatusAvailState[{#SNMPVALUE}])<>1'
+              name: 'Virtual server {#SNMPVALUE} is not available in some capacity: {ITEM.VALUE2}'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: f23a29c788064e7a8a8cd7b764f05458
+          name: 'Pool Member Stat Discovery'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.3375.2.2.5.3.2.1.19,{#STATUS},1.3.6.1.4.1.3375.2.2.5.3.2.1.11]'
+          key: PoolmemStatsName
+          delay: 12h
+          item_prototypes:
+            - uuid: 5c470e320f6245118ebafa239b4c365b
+              name: 'Pool Member {#SNMPINDEX} status'
+              type: SNMP_AGENT
+              snmp_oid: 'get[1.3.6.1.4.1.3375.2.2.5.3.2.1.11.{#SNMPINDEX}]'
+              key: 'PoolmemStatusAvailState[{#SNMPVALUE}.{#SNMPINDEX}]'
+              delay: 5m
+              history: 7d
+              valuemap:
+                name: 'Pool Member Status'
+              tags:
+                - tag: 'Pool Stats'
+                  value: 'Pool Member Status'
+              trigger_prototypes:
+                - uuid: ef7510cfd7514487815e5fb803d59ff8
+                  expression: 'last(/Template F5 Big-IP Pool Member SNMP/PoolmemStatusAvailState[{#SNMPVALUE}.{#SNMPINDEX}])<>4'
+                  name: 'Pool Member : {#SNMPINDEX} is not available'
+                  opdata: 'Value: {ITEM.LASTVALUE1}'
+                  priority: INFO
+                  manual_close: 'YES'
+          overrides:
+            - name: 'Pool Member Status'
+              step: '1'
+              filter:
+                conditions:
+                  - macro: '{#SNMPINDEX}'
+                    value: /Common/new-ibanking-fcdb-pool|/Common/new-ibanking_cooperate|/Common/prod-cbmnet2-pool|/Common/prod-cbmnet2-pool
+                    formulaid: A
+              operations:
+                - operationobject: TRIGGER_PROTOTYPE
+                  operator: LIKE
+                  value: 'Pool Member'
+                  severity: DISASTER
+                  tags:
+                    - tag: Pool_Member
+                      value: 'new-ibanking-fcdb-pool&new-ibanking_cooperate'
+      macros:
+        - macro: '{$BIGIP.CERT.MIN}'
+          value: '30'
+          description: 'Minimum number of days before certificate expiration.'
+        - macro: '{$BIGIP.CPU.UTIL.WARN.MAX}'
+          value: '85'
+          description: 'The warning threshold of the CPU utilization in %.'
+        - macro: '{$BIGIP.CPU.UTIL.WARN.MIN}'
+          value: '65'
+          description: 'The recovery threshold of the CPU utilization in %.'
+        - macro: '{$BIGIP.FS.FREE.WARN.MAX}'
+          value: '20'
+          description: 'The recovery threshold of the file system utilization in %.'
+        - macro: '{$BIGIP.FS.FREE.WARN.MIN}'
+          value: '10'
+          description: 'The warning threshold of the file system utilization in %.'
+        - macro: '{$BIGIP.LLD.FILTER.PART.NAME.MATCHES}'
+          value: '.*'
+          description: 'Filter of discoverable mount point names.'
+        - macro: '{$BIGIP.LLD.FILTER.PART.NAME.NOT_MATCHES}'
+          value: CHANGE_IF_NEEDED
+          description: 'Filter to exclude discovered by mount point names.'
+        - macro: '{$BIGIP.MEMORY.UTIL.WARN.MAX}'
+          value: '85'
+          description: 'The warning threshold of the memory utilization in %.'
+        - macro: '{$BIGIP.MEMORY.UTIL.WARN.MIN}'
+          value: '65'
+          description: 'The recovery threshold of the memory utilization in %.'
+        - macro: '{$BIGIP.SWAP.UTIL.WARN.MAX}'
+          value: '85'
+          description: 'The warning threshold of the swap utilization in %.'
+        - macro: '{$BIGIP.SWAP.UTIL.WARN.MIN}'
+          value: '65'
+          description: 'The recovery threshold of the swap utilization in %.'
+        - macro: '{$BIGIP.TEMP.HIGH}'
+          value: '55'
+          description: 'The critical threshold of the temperature in °C'
+        - macro: '{$BIGIP.TEMP.WARN}'
+          value: '50'
+          description: 'The warning threshold of the temperature in °C'
+        - macro: '{$SNMP.TIMEOUT}'
+          value: 5m
+          description: 'The time interval for SNMP agent availability trigger expression.'
+      valuemaps:
+        - uuid: 7f4e5a9ca287479ba0cd03407331dcd4
+          name: 'Chassis status'
+          mappings:
+            - value: '0'
+              newvalue: bad
+            - value: '1'
+              newvalue: good
+            - value: '2'
+              newvalue: notpresent
+        - uuid: b09fe56becf3475ea7deec081bbacd3a
+          name: 'Module provision level'
+          mappings:
+            - value: '1'
+              newvalue: none
+            - value: '2'
+              newvalue: minimum
+            - value: '3'
+              newvalue: nominal
+            - value: '4'
+              newvalue: dedicated
+            - value: '5'
+              newvalue: custom
+        - uuid: 279f89a853304792a82b6d1f06afd31d
+          name: NodeAddrStatusAvailState
+          mappings:
+            - value: '0'
+              newvalue: none
+            - value: '1'
+              newvalue: green
+            - value: '2'
+              newvalue: yellow
+            - value: '3'
+              newvalue: red
+            - value: '4'
+              newvalue: blue
+            - value: '5'
+              newvalue: gray
+        - uuid: 50f2cd0117284be6a176b61f522a3746
+          name: NodeAddrStatusEnabledState
+          mappings:
+            - value: '0'
+              newvalue: none
+            - value: '1'
+              newvalue: enabled
+            - value: '2'
+              newvalue: disabled
+            - value: '3'
+              newvalue: disabledbyparent
+        - uuid: 4a20a4b246294ba0b7646469081bc119
+          name: 'Pause state'
+          mappings:
+            - value: '0'
+              newvalue: none
+            - value: '1'
+              newvalue: txrx
+            - value: '2'
+              newvalue: tx
+            - value: '3'
+              newvalue: rx
+        - uuid: 4874878c73844600ace2d7e0c57ab492
+          name: 'Pool Member Status'
+          mappings:
+            - value: '4'
+              newvalue: up
+            - value: '19'
+              newvalue: down
+            - value: '20'
+              newvalue: forcedDown
+        - uuid: 0e301ed59b1e4917badbf747584ac6b2
+          name: PoolStatusAvailState
+          mappings:
+            - value: '0'
+              newvalue: none
+            - value: '1'
+              newvalue: green
+            - value: '2'
+              newvalue: yellow
+            - value: '3'
+              newvalue: red
+            - value: '4'
+              newvalue: blue
+            - value: '5'
+              newvalue: gray
+        - uuid: 53819275ff384dfb8eda9811f10b95df
+          name: PoolStatusEnabledState
+          mappings:
+            - value: '0'
+              newvalue: none
+            - value: '1'
+              newvalue: enabled
+            - value: '2'
+              newvalue: disabled
+            - value: '3'
+              newvalue: disabledbyparent
+        - uuid: ed0e39b372ab4a7eb4b5efefa622a95e
+          name: 'SNMP available'
+          mappings:
+            - value: '0'
+              newvalue: 'not available'
+            - value: '1'
+              newvalue: available
+            - value: '2'
+              newvalue: unknown
+        - uuid: cb8ca4ec99fc4fc08d5ff02c8e53df9b
+          name: VsStatusAvailState
+          mappings:
+            - value: '0'
+              newvalue: none
+            - value: '1'
+              newvalue: green
+            - value: '2'
+              newvalue: yellow
+            - value: '3'
+              newvalue: red
+            - value: '4'
+              newvalue: blue
+            - value: '5'
+              newvalue: gray
+        - uuid: e67dea44d0e04ba1938833091f579713
+          name: VsStatusEnabledState
+          mappings:
+            - value: '0'
+              newvalue: none
+            - value: '1'
+              newvalue: enabled
+            - value: '2'
+              newvalue: disabled
+            - value: '3'
+              newvalue: disabledbyparent
