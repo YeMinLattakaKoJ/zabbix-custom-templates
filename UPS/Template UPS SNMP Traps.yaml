@@ -1,0 +1,167 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: c6d56786673a441faa0428e428252631
+      name: |
+        
+        					Templates
+                        
+  templates:
+    - uuid: 942946aedeac484c9c026bd1603e76d8
+      template: 'Template UPS SNMP Traps'
+      name: 'Template UPS SNMP Traps'
+      description: 'SNMPTrap fallback template'
+      groups:
+        - name: |
+            
+            					Templates
+                            
+      items:
+        - uuid: 44a3ef5cbf0543709d49ed839eedc4f2
+          name: 'SNMP trap fallback'
+          type: SNMP_TRAP
+          key: snmptrap.fallback
+          delay: '0'
+          history: 90d
+          value_type: LOG
+          trends: '0'
+          tags:
+            - tag: Application
+              value: 'SNMP Traps'
+          triggers:
+            - uuid: b9cf4b7c547046a098a6faced0ad2c7f
+              expression: 'count(/Template UPS SNMP Traps/snmptrap.fallback,1d,,"General event")>0'
+              name: 'Trap received from {HOST.NAME}'
+              priority: HIGH
+              manual_close: 'YES'
+        - uuid: 337b79fb039445ada497941a403904b1
+          name: 'Critical Trap alerts'
+          type: SNMP_TRAP
+          key: 'snmptrap[(Critical|Informational)]'
+          delay: '0'
+          history: 90d
+          value_type: TEXT
+          trends: '0'
+          tags:
+            - tag: Application
+              value: 'SNMP Traps'
+          triggers:
+            - uuid: 3cae3fbe8ee142ed8de1618dcfd6a23d
+              expression: 'find(/Template UPS SNMP Traps/snmptrap[(Critical|Informational)],,"like","Critical")=1'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'find(/Template UPS SNMP Traps/snmptrap[(Critical|Informational)],,"like","Informational")=1'
+              name: 'Trap - {{ITEM.LASTVALUE}.regsub("Critical:\s(.*)\senterprises.*enterprises","\1")} on {HOST.HOST}'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              manual_close: 'YES'
+              tags:
+                - tag: UPS_PROBLEM
+                  value: '{{ITEM.LASTVALUE}.regsub("Critical:\s(.*)\senterprises.*enterprises","\1")}'
+        - uuid: 4d73551ea80549f5a080061e4a156a94
+          name: 'Warning Trap alerts'
+          type: SNMP_TRAP
+          key: 'snmptrap[(Warning|Informational)]'
+          delay: '0'
+          history: 90d
+          value_type: TEXT
+          trends: '0'
+          tags:
+            - tag: Application
+              value: 'SNMP Traps'
+          triggers:
+            - uuid: f1c8b8a766834695b6d7ae0b4e2dc46f
+              expression: 'find(/Template UPS SNMP Traps/snmptrap[(Warning|Informational)],,"like","Warning")=1'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'find(/Template UPS SNMP Traps/snmptrap[(Warning|Informational)],,"like","Informational")=1'
+              name: 'Trap - {{ITEM.LASTVALUE}.regsub("Warning:\s(.*)\senterprises.*enterprises","\1")} on {HOST.HOST}'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              manual_close: 'YES'
+              tags:
+                - tag: UPS_PROBLEM
+                  value: '{{ITEM.LASTVALUE}.regsub("Warning:\s(.*)\senterprises.*enterprises","\1")}'
+        - uuid: 36c23d6a01ad48f8ac510462bae176b0
+          name: 'Battery Discharge Trap'
+          type: SNMP_TRAP
+          key: 'snmptrap[Battery Discharge]'
+          delay: '0'
+          history: 90d
+          value_type: TEXT
+          trends: '0'
+          tags:
+            - tag: Application
+              value: 'SNMP Traps'
+          triggers:
+            - uuid: ef52aecdf7764b3198c506dcd65f6138
+              expression: 'find(/Template UPS SNMP Traps/snmptrap[Battery Discharge],,"like","Warning")=1'
+              name: 'Trap : Battery Discharge on {HOST.HOST}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 96d21734dc494eca9c6176899f8c1153
+          name: 'Bypass Abnormity Trap'
+          type: SNMP_TRAP
+          key: 'snmptrap[Bypass Abnormity]'
+          delay: '0'
+          history: 90d
+          value_type: TEXT
+          trends: '0'
+          tags:
+            - tag: Application
+              value: 'SNMP Traps'
+          triggers:
+            - uuid: eec0f53fc1e84a8a849a72c866d1b4ab
+              expression: 'find(/Template UPS SNMP Traps/snmptrap[Bypass Abnormity],,"like","Critical")=1'
+              name: 'Trap : Bypass Abnormity on {HOST.HOST}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 2b22f18e99fc4e9db9b38a3674a80607
+          name: 'UPS in Battery Mode Trap'
+          type: SNMP_TRAP
+          key: 'snmptrap[UPS in Battery Mode]'
+          delay: '0'
+          history: 90d
+          value_type: TEXT
+          trends: '0'
+          tags:
+            - tag: Application
+              value: 'SNMP Traps'
+          triggers:
+            - uuid: 3cb926a8bee1455e90500009a2da7e52
+              expression: 'find(/Template UPS SNMP Traps/snmptrap[UPS in Battery Mode],,"like","Warning")=1'
+              name: 'Trap : UPS in Battery Mode on {HOST.HOST}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: b67e208fa42345beae3eb65a9ddc6433
+          name: 'UPS On Battery Trap'
+          type: SNMP_TRAP
+          key: 'snmptrap[UPS On Battery]'
+          delay: '0'
+          history: 90d
+          value_type: TEXT
+          trends: '0'
+          tags:
+            - tag: Application
+              value: 'SNMP Traps'
+          triggers:
+            - uuid: 3e1296a636b14d32b18725b3de841afb
+              expression: 'find(/Template UPS SNMP Traps/snmptrap[UPS On Battery],,"like","Warning")=1'
+              name: 'Trap : UPS On Battery on {HOST.HOST}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 859f26360512452cacb8c671e09546aa
+          name: 'Utility Abnormity Trap'
+          type: SNMP_TRAP
+          key: 'snmptrap[Utility Abnormity]'
+          delay: '0'
+          history: 90d
+          value_type: TEXT
+          trends: '0'
+          tags:
+            - tag: Application
+              value: 'SNMP Traps'
+          triggers:
+            - uuid: 810c7688ef634c52be0ca1ab6be30ba5
+              expression: 'find(/Template UPS SNMP Traps/snmptrap[Utility Abnormity],,"like","Critical")=1'
+              name: 'Trap : Utility Abnormity on {HOST.HOST}'
+              priority: DISASTER
+              manual_close: 'YES'
