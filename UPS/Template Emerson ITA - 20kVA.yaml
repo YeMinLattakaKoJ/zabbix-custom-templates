@@ -1,0 +1,902 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 112c5fe4dd3d4da588ebbc743f511a3f
+      name: 'All Clients'
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    - uuid: 3dac6c97a84849539d1eeddb1738d08d
+      template: 'Template Emerson ITA - 20kVA'
+      name: 'Template Emerson ITA - 20kVA'
+      groups:
+        - name: 'All Clients'
+        - name: Templates
+      items:
+        - uuid: be4351477f964b27b882f87b73104e96
+          name: 'Battery temperature'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.51.0
+          key: BatteryTemperature
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: °C
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: ec2684ea1a4a4cfca4f16f42c67b136c
+          name: 'ByPass  Frequency'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.44.0
+          key: ByPassOutputFrequency
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: Hz
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 18086260b29e43d5b40beea151d82521
+              expression: 'last(/Template Emerson ITA - 20kVA/ByPassOutputFrequency)<=45 or last(/Template Emerson ITA - 20kVA/ByPassOutputFrequency)>=55'
+              name: 'ByPass Frequency is abnormal on {HOST.HOST}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: b935be43de174b5486fe2bf3371d7804
+          name: 'ByPass Voltage - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.41.0
+          key: ByPassVoltagefase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 41b636e0dfc94857a9fded5394123396
+              expression: 'last(/Template Emerson ITA - 20kVA/ByPassVoltagefase1)<=176 or last(/Template Emerson ITA - 20kVA/ByPassVoltagefase1)>=253'
+              name: 'ByPass Voltage - Fase 1 is abnormal on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 3abda32fbd47488dbd1b861365cf19e2
+          name: 'ByPass Voltage - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.42.0
+          key: ByPassVoltagefase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 81e265b68bd94f31b967ded996cbdc1e
+          name: 'ByPass Voltage - Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.43.0
+          key: ByPassVoltagefase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 086cb694814a48978b8df565c5a68ffb
+          name: 'Input Current - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.7.0
+          key: Inputcurrentfase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: A
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 025fc3ad451f469fb51040d7c67747ff
+          name: 'Input Current - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.8.0
+          key: Inputcurrentfase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: A
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 1ef09dca0a0d4d7bbd4967229013d7c4
+          name: 'Input Current - Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.9.0
+          key: Inputcurrentfase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: A
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 9a677ec53dfe4196a9339c3f99f4cd63
+          name: 'Input Frequency'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.10.0
+          key: InputFrequency
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: Hz
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 81ede3ab6cdc4cc5bc891c15a45f6173
+              expression: 'last(/Template Emerson ITA - 20kVA/InputFrequency)<=45 or last(/Template Emerson ITA - 20kVA/InputFrequency)>=55'
+              name: 'Input Frequency is abnormal on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 438ea63c93684a1491ab3cef51943025
+          name: 'Input line voltage - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.4.0
+          key: InputlineVoltagefase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: e9bd287585c647c6bbf4a31e188f984b
+              expression: 'last(/Template Emerson ITA - 20kVA/InputlineVoltagefase1)<=364 or last(/Template Emerson ITA - 20kVA/InputlineVoltagefase1)>=415'
+              name: 'Input line voltage - Fase 1 is abnormal on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 526a5f4444b64b429c146f10d44c03d3
+          name: 'Input line voltage - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.5.0
+          key: InputlineVoltagefase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 93e3f417d38246e9bbc6f5a3e7271a3f
+              expression: 'last(/Template Emerson ITA - 20kVA/InputlineVoltagefase2)<=364 or last(/Template Emerson ITA - 20kVA/InputlineVoltagefase2)>=415'
+              name: 'Input line voltage - Fase 2 is abnormal on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 8626583e5c4245efb83218b584e25a96
+          name: 'Input line voltage - Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.6.0
+          key: InputlineVoltagefase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 308091c0b8f141b7a4686ac243594ada
+              expression: 'last(/Template Emerson ITA - 20kVA/InputlineVoltagefase3)<=364 or last(/Template Emerson ITA - 20kVA/InputlineVoltagefase3)>=415'
+              name: 'Input line voltage - Fase 3 is abnormal on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 2884ca0d70ff454fa621dba45aba59f6
+          name: 'Input Phase Voltage - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.1.0
+          key: Inputphasefase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 6d024665770f4416825a81a12a15d30e
+              expression: 'last(/Template Emerson ITA - 20kVA/Inputphasefase1)<=210 or last(/Template Emerson ITA - 20kVA/Inputphasefase1)>=240'
+              name: 'Input Phase Voltage - Fase 1 is abnormal on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+            - uuid: 0ce46215f511456995e5afdfe26d41aa
+              expression: 'last(/Template Emerson ITA - 20kVA/Inputphasefase1)=0'
+              name: 'Input Phase Voltage - Fase 1 is drop to 0V on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 229dcf88e22842fe9ec078b27ce53c38
+          name: 'Input Phase Voltage - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.2.0
+          key: Inputphasefase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: aaea5fed7ff4455dbe42755f1081fd62
+              expression: 'last(/Template Emerson ITA - 20kVA/Inputphasefase2)<=210 or last(/Template Emerson ITA - 20kVA/Inputphasefase2)>=240'
+              name: 'Input Phase Voltage - Fase 2 is abnormal on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+            - uuid: 7b88f64ca62f47dc819c6367a8946ad0
+              expression: 'last(/Template Emerson ITA - 20kVA/Inputphasefase2)=0'
+              name: 'Input Phase Voltage - Fase 2 is drop to 0V on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 1ed4c6da014b43ce8c9d1b69265faae3
+          name: 'Input Phase Voltage - Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.3.0
+          key: Inputphasefase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: a5c8b89da8d349f5ba9133b5ad9be056
+              expression: 'last(/Template Emerson ITA - 20kVA/Inputphasefase3)<=210 or last(/Template Emerson ITA - 20kVA/Inputphasefase3)>=240'
+              name: 'Input Phase Voltage - Fase 3 is abnormal on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+            - uuid: 02d2e8f94f6548a59513769cee9c1a71
+              expression: 'last(/Template Emerson ITA - 20kVA/Inputphasefase3)=0'
+              name: 'Input Phase Voltage - Fase 3 is drop to 0V on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 6ae14b61b755461baae989ea4dd0e150
+          name: 'Input power factor - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.11.0
+          key: InputPowerFactorfase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kW
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: b135140fae28408a889c746f49a7c4b6
+              expression: 'last(/Template Emerson ITA - 20kVA/InputPowerFactorfase1)<=0.8'
+              name: 'Input power factor - Fase 1 is drop to 0.8kW on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: dcb375f2a75e48909957feb1c4ca8cf0
+          name: 'Input power factor - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.12.0
+          key: InputPowerFactorfase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kW
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: c27f50fdf0b242e1b9f96169ca0753eb
+              expression: 'last(/Template Emerson ITA - 20kVA/InputPowerFactorfase2)<=0.8'
+              name: 'Input power factor - Fase 2 is drop to 0.8kW on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 876b584f0523433e82739ab55cb52ff3
+          name: 'Input power factor - Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.13.0
+          key: InputPowerFactorfase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kW
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 4dbeab013cda485f9f75fd2639974bd6
+              expression: 'last(/Template Emerson ITA - 20kVA/InputPowerFactorfase3)<=0.8'
+              name: 'Input power factor - Fase 3 is drop to 0.8kW on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: c4ad88181921422a94c50519ac44060e
+          name: 'Active output power - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.26.0
+          key: Outputactivepowerfase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kW
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 7e83fe73e2d147d797fa3dac4f11e59d
+          name: 'Active output power - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.27.0
+          key: Outputactivepowerfase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kW
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 2cdb451024d1414ab49c8d2b8d2d6b20
+          name: 'Active output power- Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.28.0
+          key: Outputactivepowerfase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kW
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 35415962b162404d9d3161eb7a00d7d4
+          name: 'Output Crest Factor - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.38.0
+          key: OutputCrestFactorfase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: ce3ad7ab74e547859a8c7de70ec1a178
+          name: 'Output Crest Factor - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.39.0
+          key: OutputCrestFactorfase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: e9662dcc88dc4d3c894643efad83640d
+          name: 'Output Crest Factor - Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.40.0
+          key: OutputCrestFactorfase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 0cb14a0026804201a7da2048c093c851
+          name: 'Output current - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.19.0
+          key: outputcurrentfase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: A
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 28b0231911ef41f7bba8dcbea1fc6311
+              expression: 'last(/Template Emerson ITA - 20kVA/outputcurrentfase1)>24'
+              name: 'Output current - Fase 1 is over 24 A on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 088bebb39f4d4b1f9b55d82e443e7ef7
+          name: 'Output current - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.20.0
+          key: outputcurrentfase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: A
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: f63f0533d50245ee9005c58882fa9049
+              expression: 'last(/Template Emerson ITA - 20kVA/outputcurrentfase2)>=23.8'
+              name: 'Output current - Fase 2 is over 23.8A on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 439a1d5ba2824859ac36c346aab5f93f
+          name: 'Output current - Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.21.0
+          key: outputcurrentfase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: A
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 78ca2de6c5444e03970b3970f36fd4b9
+              expression: 'last(/Template Emerson ITA - 20kVA/outputcurrentfase3)>=23.8'
+              name: 'Output current - Fase 3 is over 23.8A on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 3a5303e0d6274c3c922a90c40c323c0b
+          name: 'Output frequency'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.22.0
+          key: OutputFrequency
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: Hz
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 3735a110bb5340839758ee5179abdb95
+              expression: 'last(/Template Emerson ITA - 20kVA/OutputFrequency)<=45 or last(/Template Emerson ITA - 20kVA/OutputFrequency)>=55'
+              name: 'Output frequency is abnormal on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 10c86abe063e46bd840504ea62017e4e
+          name: 'Output load - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.35.0
+          key: OutputLoadfase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: '%'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: cedf3348a3594facb7188bdb20b65a42
+              expression: 'last(/Template Emerson ITA - 20kVA/OutputLoadfase1)>75'
+              name: 'Output load - Fase 1 is over 75% on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 45087bf20b124608a038b9a20404e5e2
+          name: 'Output load - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.36.0
+          key: OutputLoadfase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: '%'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: ef51ed2212ae4570b4b092ee34d559ac
+              expression: 'last(/Template Emerson ITA - 20kVA/OutputLoadfase2)>=75'
+              name: 'Output load - Fase 2 is over 75% on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: f04103f5573b4d928033c2870e6b7fb8
+          name: 'Output load - Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.37.0
+          key: OutputLoadfase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: '%'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: d00ca160a7fb433aacc180d3e573b62e
+              expression: 'last(/Template Emerson ITA - 20kVA/OutputLoadfase3)>=75'
+              name: 'Output load - Fase 3 is over 75% on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: eef6a588f3894d5e900224ba46d10b96
+          name: 'Output power factor - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.23.0
+          key: outputPowerFactorfase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kW
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 0517c66b553e4fe89f1214b62ebbdf32
+              expression: 'last(/Template Emerson ITA - 20kVA/outputPowerFactorfase1)<=0.87'
+              name: 'Output power factor - Fase 1 is drop to 0.87kW on {HOST.NAME}'
+              status: DISABLED
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 3c5089ad5e894e41846e9e180ca3aea7
+          name: 'Output power factor - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.24.0
+          key: outputPowerFactorfase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kW
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 43cce20b2ff54dcf94369daaf3f735f5
+          name: 'Output power factor - Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.25.0
+          key: outputPowerFactorfase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kW
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: a7d7d807b0194c7cb2f46491f3a23840
+          name: 'Reactive output power - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.29.0
+          key: Outputreactovepowerfase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kVAR
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: a8a3e903dd1946b8865898383c955de1
+          name: 'Reactive output power - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.30.0
+          key: Outputreactovepowerfase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kVAR
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: bbc9c12c97244c748192c0b5d11acf21
+          name: 'Reactive output power - Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.31.0
+          key: Outputreactovepowerfase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: kVAR
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: a92e9762dc9d4976a7515b15d8c696cc
+          name: 'Output voltage - Fase 1'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.16.0
+          key: OutputVoltagefase1
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: b107b0e8369541cc8366baf15f3af4a9
+              expression: 'last(/Template Emerson ITA - 20kVA/OutputVoltagefase1)<=220 or last(/Template Emerson ITA - 20kVA/OutputVoltagefase1)>=236.9'
+              name: 'Output voltage - Fase 1 is abnormal on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: c7c942a772b74054ad41eb424ef69d38
+          name: 'Output voltage - Fase 2'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.17.0
+          key: OutputVoltagefase2
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 90935b51a5f1443ea4aabde6f080df06
+          name: 'Output voltage - Fase 3'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.18.0
+          key: OutputVoltagefase3
+          delay: 5m
+          history: 7d
+          value_type: FLOAT
+          units: V
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+        - uuid: 4e3388ac4bd9466f97df7e95e8f1be70
+          name: Contact
+          type: SNMP_AGENT
+          snmp_oid: 'SNMPv2-MIB::sysContact.0'
+          key: sysContact
+          delay: 5m
+          history: 7d
+          value_type: CHAR
+          trends: '0'
+          inventory_link: CONTACT
+          tags:
+            - tag: Application
+              value: Information(s)
+        - uuid: c4a4e36ca7e645cf9e03d6f60fa93534
+          name: 'Software version (full)'
+          type: SNMP_AGENT
+          snmp_oid: 'SNMPv2-MIB::sysDescr.0'
+          key: sysDescr
+          delay: 5m
+          history: 7d
+          value_type: CHAR
+          trends: '0'
+          inventory_link: OS_FULL
+          tags:
+            - tag: Application
+              value: Information(s)
+        - uuid: 8c75691c67a34f90b420301778663a6e
+          name: 'Device Location'
+          type: SNMP_AGENT
+          snmp_oid: 'SNMPv2-MIB::sysLocation.0'
+          key: sysLocation
+          delay: 5m
+          history: 7d
+          value_type: CHAR
+          trends: '0'
+          inventory_link: LOCATION
+          tags:
+            - tag: Application
+              value: Information(s)
+        - uuid: 7ea421560f374085a36177d2c98a7d2a
+          name: 'Device Name'
+          type: SNMP_AGENT
+          snmp_oid: 'SNMPv2-MIB::sysName.0'
+          key: sysName
+          delay: 5m
+          history: 7d
+          value_type: CHAR
+          trends: '0'
+          inventory_link: NAME
+          tags:
+            - tag: Application
+              value: Information(s)
+        - uuid: cdfebe691c394594a8fd190ac0ca3565
+          name: Uptime
+          type: SNMP_AGENT
+          snmp_oid: 'SNMPv2-MIB::sysUpTime.0'
+          key: sysUpTime
+          delay: 5m
+          units: uptime
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Information(s)
+        - uuid: e56f7499caba428c90ed10d04d7dff6c
+          name: 'Remaining battery time'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.13400.2.27.2.4.50.0
+          key: TimeRemaining
+          delay: 5m
+          history: 7d
+          units: min
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Application
+              value: Operational
+          triggers:
+            - uuid: 97b8d658696b4e809d6b29e53a495301
+              expression: 'last(/Template Emerson ITA - 20kVA/TimeRemaining)<30'
+              name: 'Battery Remain Time is drop to 30min on {HOST.NAME}'
+              priority: DISASTER
+              manual_close: 'YES'
+  graphs:
+    - uuid: 82ace3aa09fa407dbd61c04790a4929c
+      name: 'UPS load'
+      graph_items:
+        - sortorder: '1'
+          color: 0000CC
+          item:
+            host: 'Template Emerson ITA - 20kVA'
+            key: OutputLoadfase1
+    - uuid: d3808d8bad3b42888a7861c5fecf974f
+      name: 'UPS voltage'
+      graph_items:
+        - color: 0000CC
+          item:
+            host: 'Template Emerson ITA - 20kVA'
+            key: OutputVoltagefase1
+        - sortorder: '1'
+          color: CC0000
+          item:
+            host: 'Template Emerson ITA - 20kVA'
+            key: Inputphasefase1
