@@ -4,7 +4,7 @@ This repository contains a custom Zabbix template for monitoring [Service/Device
 
 ## Features
 - Efficient IP SNMP
-- 
+  
 ## Requirements
 - Zabbix 6.0 or later
 
