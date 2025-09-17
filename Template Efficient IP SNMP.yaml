@@ -1,0 +1,1176 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 809a07437a8e4507a1718d48a9f21272
+      name: 'Templates SNMP'
+  templates:
+    - uuid: 3bcdcddeff7849918cd9adfcadb6b6ee
+      template: 'Template Efficient IP SNMP'
+      name: 'Template Efficient IP SNMP'
+      description: 'Efficient IP DNS Service'
+      groups:
+        - name: 'Templates SNMP'
+      items:
+        - uuid: 8c7072cab88c4f279c7a98a2b64a9bdc
+          name: 'The number of DECLINE messages received'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.3.2.22.1.3.7.100.101.99.108.105.110.101
+          key: eipDhcpStatValue.decline
+          delay: 5m
+          history: 7d
+          description: 'The number of DECLINE messages received'
+          tags:
+            - tag: Application
+              value: 'DHCP Service'
+        - uuid: 75c3f456ae404a8faf1265fae26dcd45
+          name: 'The number of DISCOVER messages received'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.3.2.22.1.3.8.100.105.115.99.111.118.101.114
+          key: eipDhcpStatValue.discover
+          delay: 5m
+          history: 7d
+          description: 'The number of DISCOVER messages received'
+          tags:
+            - tag: Application
+              value: 'DHCP Service'
+        - uuid: 93d967cb5e6d4e1e94327b2d33609e8d
+          name: 'The number of INFORM messages received'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.3.2.22.1.3.6.105.110.102.111.114.109
+          key: eipDhcpStatValue.inform
+          delay: 5m
+          history: 7d
+          description: 'The number of INFORM messages received'
+          tags:
+            - tag: Application
+              value: 'DHCP Service'
+        - uuid: bbe6a30803b54e81a1d2eacebe791a2e
+          name: 'The number of NACK answers sent'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.3.2.22.1.3.4.110.97.99.107
+          key: eipDhcpStatValue.nack
+          delay: 5m
+          history: 7d
+          description: 'The number of NACK answers sent.'
+          tags:
+            - tag: Application
+              value: 'DHCP Service'
+        - uuid: 3e84ba7acc1c49a0ae37bd761095e55e
+          name: 'The number of OFFER answers sent'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.3.2.22.1.3.5.111.102.102.101.114
+          key: eipDhcpStatValue.offer
+          delay: 5m
+          history: 7d
+          description: 'The number of OFFER answers sent'
+          tags:
+            - tag: Application
+              value: 'DHCP Service'
+        - uuid: aeb2d9cd14874b43a997d4950a411ff7
+          name: 'The number of RELEASE messages received'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.3.2.22.1.3.7.114.101.108.101.97.115.101
+          key: eipDhcpStatValue.release
+          delay: 5m
+          history: 7d
+          description: 'The number of RELEASE messages received'
+          tags:
+            - tag: Application
+              value: 'DHCP Service'
+        - uuid: 7cad9953a66340a6892f807b9f84f50a
+          name: 'The number of REQUEST messages received'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.3.2.22.1.3.7.114.101.113.117.101.115.116
+          key: eipDhcpStatValue.request
+          delay: 5m
+          history: 7d
+          description: 'The number of REQUEST messages received'
+          tags:
+            - tag: Application
+              value: 'DHCP Service'
+        - uuid: bfb27d6e6cfe4e138661e011aeeb0d05
+          name: 'The number of queries per second that were blocked once a trigger configured with the action Block on the related sources has reached its threshold'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.44.0
+          key: eipDNSGUARDIANStatBlockedQuery.0
+          delay: 5m
+          history: 7d
+          description: |
+            The number of queries per second that were blocked once a trigger configured with the action 
+            Block on the related sources has reached its threshold
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'Filters Statistics'
+        - uuid: c352fefed29e4c7096737475fbd0b79a
+          name: 'The total number of cache hits'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.3.0
+          key: eipDNSGUARDIANStatCacheHit.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of cache hits (including hits in Quarantine and Rescue modes)'
+          preprocessing:
+            - type: CHANGE_PER_SECOND
+              parameters:
+                - ''
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+          triggers:
+            - uuid: ddb22c7b780c4750adf771c7a3243d3c
+              expression: 'last(/Template Efficient IP SNMP/eipDNSGUARDIANStatCacheHit.0)<30'
+              name: 'The total number of cache hits less than 30'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 2604cbe17ee34657a4bfb33fd14a2605
+          name: 'The total number of cache hits in Quarantine mode'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.37.0
+          key: eipDNSGUARDIANStatCacheHitQuarantine.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of cache hits in Quarantine mode'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'Quarantine Mode Cache Statistics'
+        - uuid: 29075f1d82c44f5ba5a63b83368e89eb
+          name: 'The total number of cache hits in Rescue mode'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.43.0
+          key: eipDNSGUARDIANStatCacheHitRescue.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of cache hits in Rescue mode'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'Rescue Mode Cache Statistics'
+        - uuid: 015af23480ae45bbbbc85082692eafb9
+          name: 'The total number of cache misses'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.4.0
+          key: eipDNSGUARDIANStatCacheMiss.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of cache misses (including misses in Quarantine and Rescue modes).'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: b242ae76e732497caa43bcd1e83e6085
+          name: 'The total number of queries that did not hit the cache because the related entry has expired'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.10.0
+          key: eipDNSGUARDIANStatCacheMissExist.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of queries that did not hit the cache because the related entry has expired'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: 321427f3f3b54417addf864164587345
+          name: 'The total number of queries that did not hit the cache because the related entry has expired in Quarantine mode'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.35.0
+          key: eipDNSGUARDIANStatCacheMissExistQuarantine.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of queries that did not hit the cache because the related entry has expired in Quarantine mode'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'Quarantine Mode Cache Statistics'
+        - uuid: e667a32f64cf489188171f69b3ae9f62
+          name: 'The total number of queries that did not hit the cache because the related entry has expired in Rescue mode'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.41.0
+          key: eipDNSGUARDIANStatCacheMissExistRescue.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of queries that did not hit the cache because the related entry has expired in Rescue mode'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'Rescue Mode Cache Statistics'
+        - uuid: 1ebb5ad7c8194f039af409d6913e89e1
+          name: 'The total number of queries that did not hit the cache because the related entry doesn''t exist'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.11.0
+          key: eipDNSGUARDIANStatCacheMissNotExist.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of queries that did not hit the cache because the related entry doesn''t exist'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: e4662ba5b50e4fa0a3ae1e8d4605c7ca
+          name: 'The total number of queries that did not hit the cache because the related entry doesn''t exist in Quarantine mode'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.36.0
+          key: eipDNSGUARDIANStatCacheMissNotExistQuarantine.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of queries that did not hit the cache because the related entry doesn''t exist in Quarantine mode'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: a77c58e9ca334eb5a64dcd0e767dbfbd
+          name: 'The total number of queries that did not hit the cache because the related entry doesn''t exist in Rescue mode'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.42.0
+          key: eipDNSGUARDIANStatCacheMissNotExistRescue.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of queries that did not hit the cache because the related entry doesn''t exist in Rescue mode'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'Rescue Mode Cache Statistics'
+        - uuid: 40060c52be5049bab87a3c257b61fd7a
+          name: 'The total number of cache misses in Quarantine mode'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.34.0
+          key: eipDNSGUARDIANStatCacheMissQuarantine.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of cache misses in Quarantine mode'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'Quarantine Mode Cache Statistics'
+        - uuid: 1bd94fe8c02d43588121f041518fa4dc
+          name: 'The total number of cache misses in Rescue mode'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.40.0
+          key: eipDNSGUARDIANStatCacheMissRescue.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of cache misses in Rescue mode'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'Rescue Mode Cache Statistics'
+        - uuid: a6e8f343656f497ca70e5742b0e938d5
+          name: 'The total number of entries in the cache'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.5.0
+          key: eipDNSGUARDIANStatCacheSize.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of entries in the cache'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: 33a524f7a074483f98b3ac9257a6ba8c
+          name: 'The total number of tracked client IP addresses'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.45.0
+          key: eipDNSGUARDIANStatClientsSize.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of tracked client IP addresses.'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: c3796cd9366146acab64552c57182479
+          name: 'The number of queries per second dropped because source clients have reached the configured query limit rate of 100 queries/s'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.11.2.4.47.0
+          key: eipDNSGUARDIANStatRatelimitedQuery.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries per second dropped because source clients have reached the configured query limit rate of 100 queries/s'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'Filters Statistics'
+        - uuid: c0ec7672770a4c8a91a47c2a518a71e9
+          name: 'The total incoming traffic in bytes'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.9.0
+          key: eipDNSGUARDIANStatRecvDNSByte.0
+          delay: 5m
+          history: 7d
+          description: 'The total incoming traffic in bytes.'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'DNS Traffic Statistics'
+        - uuid: b86c985e1f4b4c24b11d5d434650aa03
+          name: 'The total number of received queries'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.8.0
+          key: eipDNSGUARDIANStatRecvDNSPacket.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of received queries'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'DNS Traffic Statistics'
+        - uuid: 4266a22b61a0462a9f24371307e648b8
+          name: 'The total traffic of invalid queries dropped in bytes'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.15.0
+          key: eipDNSGUARDIANStatRecvInvalidDNSByte.0
+          delay: 5m
+          history: 7d
+          description: 'The total traffic of invalid queries dropped in bytes.'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'Invalid Queries Statistics'
+        - uuid: ad4bf214ddcc4a5fa90d2698dc987f87
+          name: 'The total number of invalid queries that were dropped'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.14.0
+          key: eipDNSGUARDIANStatRecvInvalidDNSPacket.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of invalid queries that were dropped.'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'Invalid Queries Statistics'
+        - uuid: 454a614cb6a442398e3f61ed7ec47aaf
+          name: 'The number of queries with a wrong format, returning the message FORMERR (RCODE: 1)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.102.0
+          key: eipDNSGUARDIANStatReplyFORMERR.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries with a wrong format, returning the message FORMERR (RCODE: 1).'
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: a50e8309993242c192cdf6aee66bd38a
+          name: 'The number of successful queries, returning the message NOERROR (RCODE: 0)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.101.0
+          key: eipDNSGUARDIANStatReplyNOERROR.0
+          delay: 5m
+          history: 7d
+          description: 'The number of successful queries, returning the message NOERROR (RCODE: 0)'
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: e9188cf6979f4025b7e1c1db5f114013
+          name: 'The number of queries for which the server is not authoritative for the zone, returning the message NOTAUTH (RCODE: 9)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.120.0
+          key: eipDNSGUARDIANStatReplyNOTAUTH.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries for which the server is not authoritative for the zone, returning the message NOTAUTH (RCODE: 9)'
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: dc8716d28e844791bc68dd476d692dd1
+          name: 'The number of queries for which the server did not implement the function, returning the message NOTIMP (RCODE: 4)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.105.0
+          key: eipDNSGUARDIANStatReplyNOTIMP.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries for which the server did not implement the function, returning the message NOTIMP (RCODE: 4)'
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: a61b04ee9ceb4554abcb9591c4214fe6
+          name: 'The number of queries for which the name is not in the zone, returning the message NOTZONE (RCODE: 10)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.121.0
+          key: eipDNSGUARDIANStatReplyNOTZONE.0
+          delay: 5m
+          history: 7d
+          description: |
+            The number of queries for which the name is not in the zone, returning the message NOTZONE
+            (RCODE: 10)
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: 9b06ccdd2a6d45aa8306079761ce6902
+          name: 'The number of queries where the domain name does not exist, returning the message NXDOMAIN (RCODE: 3)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.104.0
+          key: eipDNSGUARDIANStatReplyNXDOMAIN.0
+          delay: 5m
+          history: 7d
+          description: |
+            The number of queries where the domain name does not exist, returning the message
+            NXDOMAIN (RCODE: 3)
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: f76844cbb6324bf0b78aa9431550b1ce
+          name: 'The number of queries for which the RR set should exist but does not, returning the message NXRRSET (RCODE: 8)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.109.0
+          key: eipDNSGUARDIANStatReplyNXRRSET.0
+          delay: 5m
+          history: 7d
+          description: |
+            The number of queries for which the RR set should exist but does not, returning the message
+            NXRRSET (RCODE: 8)
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: d5421fae8a554407b98cc2206cd222ef
+          name: 'The number of queries the server refused to answer, returning the message REFUSED (RCODE: 5)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.106.0
+          key: eipDNSGUARDIANStatReplyREFUSED.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries the server refused to answer, returning the message REFUSED (RCODE: 5)'
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: 1acb97d207e1490eb003f74f17b52bba
+          name: 'The number of queries the server failed to complete, returning the message SERVFAIL (RCODE: 2).'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.103.0
+          key: eipDNSGUARDIANStatReplySERVFAIL.0
+          delay: 5m
+          history: 7d
+          description: |
+            The number of queries the server failed to complete, returning the message SERVFAIL
+            (RCODE: 2).
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: aedca44ddf3e43b99b303f8135f965a4
+          name: 'The number of queries for which the name exists when it should not, returning the message YXDOMAIN (RCODE: 6).'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.107.0
+          key: eipDNSGUARDIANStatReplyYXDOMAIN.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries for which the name exists when it should not, returning the message YXDOMAIN (RCODE: 6).'
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: cf16460ab68044c7ab72fd5851e80882
+          name: 'The number of queries for which the RR set exists when it should not, returning the message YXRRSET (RCODE: 7)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.108.0
+          key: eipDNSGUARDIANStatReplyYXRRSET.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries for which the RR set exists when it should not, returning the message YXRRSET (RCODE: 7)'
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+            - tag: Application
+              value: DNSGUARDIAN
+        - uuid: b7a9b2057b2f4993b625a5bf42c13309
+          name: 'The number of queries with a latency < 10ms'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.48.0
+          key: eipDNSGUARDIANStatRTT10.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries with a latency < 10ms.'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+        - uuid: 4cc5140e625c440397f7bfd3f4f49dbc
+          name: 'The number of queries with a latency >= 10ms & < 100ms'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.49.0
+          key: eipDNSGUARDIANStatRTT100.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries with a latency >= 10ms & < 100ms'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+        - uuid: c2e5c05aa6f94bd0a696be6c936097bf
+          name: 'The number of recursive queries with a latency >= 100ms & < 500ms'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.50.0
+          key: eipDNSGUARDIANStatRTT500.0
+          delay: 5m
+          history: 7d
+          description: 'The number of recursive queries with a latency >= 100ms & < 500ms'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+        - uuid: 34e090a8377e4778a4e325a00eaae81b
+          name: 'The number of queries with a latency >= 500ms & < 800m'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.51.0
+          key: eipDNSGUARDIANStatRTT800.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries with a latency >= 500ms & < 800m'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+        - uuid: 0d6904853f5246d093b38490167ad255
+          name: 'The number of queries with a latency >= 800ms & < 1600ms'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.52.0
+          key: eipDNSGUARDIANStatRTT1600.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries with a latency >= 800ms & < 1600ms'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+        - uuid: 96cc4f7520e941ce9f23852ebb14cf4d
+          name: 'The number of queries with a latency >= 1600ms'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.53.0
+          key: eipDNSGUARDIANStatRTTMax.0
+          delay: 5m
+          history: 7d
+          description: 'The number of queries with a latency >= 1600ms.'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+        - uuid: f7f4f539f5d04a088bf505c3ca664988
+          name: 'The total outgoing traffic in bytes'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.7.0
+          key: eipDNSGUARDIANStatSendDNSByte.0
+          delay: 5m
+          history: 7d
+          description: 'The total outgoing traffic in bytes'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'DNS Traffic Statistics'
+        - uuid: 26d85659191e48ef84cb745fb4f82bb2
+          name: 'The total number of sent queries'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.11.2.4.6.0
+          key: eipDNSGUARDIANStatSendDNSPacket.0
+          delay: 5m
+          history: 7d
+          description: 'The total number of sent queries.'
+          tags:
+            - tag: Application
+              value: DNSGUARDIAN
+            - tag: Application
+              value: 'DNS Traffic Statistics'
+        - uuid: 99afcf6bf3fc4b3994b8e03dba9df9e4
+          name: 'The number of dropped queries'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.7.100.114.111.112.112.101.100
+          key: eipDnsStatValue.dropped
+          delay: 5m
+          history: 7d
+          description: 'The number of dropped queries'
+          preprocessing:
+            - type: CHANGE_PER_SECOND
+              parameters:
+                - ''
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+          triggers:
+            - uuid: a3cfe6e692ab4722b541c97f56b89b32
+              expression: 'last(/Template Efficient IP SNMP/eipDnsStatValue.dropped)>15'
+              name: 'The number of dropped queries more than 15'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: AVERAGE
+              manual_close: 'YES'
+            - uuid: b0a97b24374b43a99107dae06677b11d
+              expression: 'last(/Template Efficient IP SNMP/eipDnsStatValue.dropped)>20'
+              name: 'The number of dropped queries more than 20'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: HIGH
+              manual_close: 'YES'
+            - uuid: 127d5c7c8a684ab28a3257f88bd8b442
+              expression: 'last(/Template Efficient IP SNMP/eipDnsStatValue.dropped)>25'
+              name: 'The number of dropped queries more than 25'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 0c5af6d3d66c4a60abdfa493d895f55c
+          name: 'The number of duplicate queries received'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.9.100.117.112.108.105.99.97.116.101
+          key: eipDnsStatValue.duplicate
+          delay: 5m
+          history: 7d
+          description: 'The number of duplicate queries received'
+          preprocessing:
+            - type: CHANGE_PER_SECOND
+              parameters:
+                - ''
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+          triggers:
+            - uuid: 53976451fceb4f468c2b461f3bac282a
+              expression: 'last(/Template Efficient IP SNMP/eipDnsStatValue.duplicate)>5'
+              name: 'The number of duplicate queries received more than 5'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: AVERAGE
+              manual_close: 'YES'
+            - uuid: 790b3c6dca4b413c9ac912998cf3e2d2
+              expression: 'last(/Template Efficient IP SNMP/eipDnsStatValue.duplicate)>10'
+              name: 'The number of duplicate queries received more than 10'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: HIGH
+              manual_close: 'YES'
+            - uuid: 2052800a3eed4d32a536b5edcbddc0b6
+              expression: 'last(/Template Efficient IP SNMP/eipDnsStatValue.duplicate)>15'
+              name: 'The number of duplicate queries received more than 15'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: f508962b516b4945bffee831ea0583a3
+          name: 'The number of queries failed for which the device sent another RCODE'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.7.102.97.105.108.117.114.101
+          key: eipDnsStatValue.failure
+          delay: 5m
+          history: 7d
+          description: 'The number of queries failed for which the device sent another RCODE'
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+        - uuid: ce7279cd537643b8ab1980a650b3a972
+          name: 'The number of queries with a wrong format'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.7.102.111.114.109.101.114.114
+          key: eipDnsStatValue.formerr
+          delay: 5m
+          history: 7d
+          description: 'The number of queries with a wrong format, returning the message FORMERR (RCODE: 1).'
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+        - uuid: 8ec9cf9daebc4fb2b02c591513071d02
+          name: 'The number of transfer queries rejected'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.4.2.3.1.3.7.102.111.114.109.101.114.114
+          key: eipDnsStatValue.formerrej
+          delay: 5m
+          history: 7d
+          description: 'The number of transfer queries rejected.'
+          tags:
+            - tag: Application
+              value: 'DNS Transfer Requests Statistics'
+        - uuid: 1168e6643d824601ac1d184ba76eff6c
+          name: 'The number of queries where the domain name does not exist'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.8.110.120.100.111.109.97.105.110
+          key: eipDnsStatValue.nxdomain
+          delay: 5m
+          history: 7d
+          description: |
+            The number of queries where the domain name does not exist, returning the message
+            NXDOMAIN (RCODE: 3)
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+        - uuid: 0a4f338b3510403ea9910aae858d474f
+          name: 'The number of queries for which the RR set should exist but does not, returning the message'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.7.102.111.114.109.101.114.114
+          key: eipDnsStatValue.nxrrset
+          delay: 5m
+          history: 7d
+          description: |
+            The number of queries for which the RR set should exist but does not, returning the message
+            NXRRSET (RCODE: 8)
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+        - uuid: b2115751bb2f478c8611918515720533
+          name: 'The number of rejected queries requiring recursion'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.10.114.101.99.117.114.115.101.114.101.106
+          key: eipDnsStatValue.recurserej
+          delay: 5m
+          history: 7d
+          description: 'The number of rejected queries requiring recursion'
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+        - uuid: a82704b2aba74d08bfb57d4ab4de7e1d
+          name: 'The number of queries requiring recursion'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.9.114.101.99.117.114.115.105.111.110
+          key: eipDnsStatValue.recursion
+          delay: 5m
+          history: 7d
+          description: 'The number of queries requiring recursion'
+          preprocessing:
+            - type: CHANGE_PER_SECOND
+              parameters:
+                - ''
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+          triggers:
+            - uuid: 19b5c29614614eba98b083ee4d05f903
+              expression: 'last(/Template Efficient IP SNMP/eipDnsStatValue.recursion)<10'
+              name: 'The number of queries requiring recursion less than 10'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: adc185f8946845e599658f6583653db8
+          name: 'The number of queries received through IPv4'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.9.114.101.113.117.101.115.116.118.52
+          key: eipDnsStatValue.requestv4
+          delay: 5m
+          history: 7d
+          description: 'The number of queries received through IPv4'
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+        - uuid: eb6d3b55c39b4c958dab56acc66ab0bd
+          name: 'The number of queries received through IPv6'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.9.114.101.113.117.101.115.116.118.54
+          key: eipDnsStatValue.requestv6
+          delay: 5m
+          history: 7d
+          description: 'The number of queries received through IPv6'
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+        - uuid: 0c1445e5640c4977b99f1253c9baa5c7
+          name: 'The number of responses sent'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.8.114.101.115.112.111.110.115.101
+          key: eipDnsStatValue.response
+          delay: 5m
+          history: 7d
+          description: 'The number of responses sent'
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+        - uuid: 02eb11dff5c74592acd7569df3d026f0
+          name: 'The number of recursive queries with latency >= 10ms & < 100ms'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.13.114.101.115.95.113.117.101.114.121.114.116.116.49
+          key: eipDnsStatValue.res_queryrtt1
+          delay: 5m
+          history: 7d
+          description: 'The number of recursive queries with latency >= 10ms & < 100ms'
+          tags:
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+        - uuid: 0792dde9f08d4b3b827cfe04d8255188
+          name: 'The number of recursive queries with latency >= 500ms & < 800ms'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.4.2.3.1.3.13.114.101.115.95.113.117.101.114.121.114.116.116.51
+          key: eipDnsStatValue.res_queryrtt3
+          delay: 5m
+          history: 7d
+          description: 'The number of recursive queries with latency >= 500ms & < 800ms'
+          tags:
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+        - uuid: 9db280ce2cf946ca8aada72340e98a72
+          name: 'The number of recursive queries with latency >= 800ms & < 1600ms'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.4.2.3.1.3.13.114.101.115.95.113.117.101.114.121.114.116.116.52
+          key: eipDnsStatValue.res_queryrtt4
+          delay: 5m
+          history: 7d
+          description: 'The number of recursive queries with latency >= 800ms & < 1600ms'
+          tags:
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+        - uuid: 973e7db2ef2f495c8e7ebb73f7668252
+          name: 'The number of recursive queries with latency >= 1600ms'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.13.114.101.115.95.113.117.101.114.121.114.116.116.53
+          key: eipDnsStatValue.res_queryrtt5
+          delay: 5m
+          history: 7d
+          description: 'The number of recursive queries with latency >= 1600ms'
+          tags:
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+        - uuid: a818b90cba2d4080814ee8736ad7ce80
+          name: 'The number of queries sent to external forwarder or authoritative servers using IPv4 for resolution'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.11.114.101.115.95.113.117.101.114.121.118.52
+          key: eipDnsStatValue.res_queryv4
+          delay: 5m
+          history: 7d
+          description: 'The number of queries sent to external forwarder or authoritative servers using IPv4 for resolution'
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+        - uuid: 27facc66f1634d6e8bd97db7af332240
+          name: 'The number of queries sent to external forwarder or authoritative servers using IPv6 for resolution'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.11.114.101.115.95.113.117.101.114.121.118.54
+          key: eipDnsStatValue.res_queryv6
+          delay: 5m
+          history: 7d
+          description: 'The number of queries sent to external forwarder or authoritative servers using IPv6 for resolution'
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+        - uuid: 59e3c28d28dd48c5bb7e0222f56a64df
+          name: 'The number of responses from external forwarder or authoritative servers using IPv4'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.14.114.101.115.95.114.101.115.112.111.110.115.101.118.52
+          key: eipDnsStatValue.res_responsev4
+          delay: 5m
+          history: 7d
+          description: 'The number of responses from external forwarder or authoritative servers using IPv4'
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+        - uuid: 96da29b3be5549a289ea4ddc6272b98f
+          name: 'The number of responses from external forwarder or authoritative servers using IPv6'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.14.114.101.115.95.114.101.115.112.111.110.115.101.118.54
+          key: eipDnsStatValue.res_responsev6
+          delay: 5m
+          history: 7d
+          description: 'The number of responses from external forwarder or authoritative servers using IPv6'
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+        - uuid: dbfa9b9386e44444a48358bcca7ef745
+          name: 'The number of queries retried on external forwarder or authoritative servers'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.9.114.101.115.95.114.101.116.114.121
+          key: eipDnsStatValue.res_retry
+          delay: 5m
+          history: 7d
+          description: 'The number of queries retried on external forwarder or authoritative servers'
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+        - uuid: 5463773b69db42af9a9d48e90f03f438
+          name: 'The total number of DNSSEC validation attempts'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.7.114.101.115.95.118.97.108
+          key: eipDnsStatValue.res_val
+          delay: 5m
+          history: 7d
+          description: 'The total number of DNSSEC validation attempts'
+          tags:
+            - tag: Application
+              value: 'DNSSEC Validation Statistics'
+        - uuid: c3ae82fa80084dd0999a34ba2646f2c6
+          name: 'The total number of DNSSEC validation failures'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.4.2.3.1.3.11.114.101.115.95.118.97.108.102.97.105.108
+          key: eipDnsStatValue.res_valfail
+          delay: 5m
+          history: 7d
+          description: 'The total number of DNSSEC validation failures'
+          tags:
+            - tag: Application
+              value: 'DNSSEC Validation Statistics'
+        - uuid: 4c37b85b77bb4df8bbb80746b472e8db
+          name: 'The total number of DNSSEC NX validation successfully completed'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.4.2.3.1.3.17.114.101.115.95.118.97.108.110.101.103.115.117.99.99.101.115
+          key: eipDnsStatValue.res_valnegsuccess
+          delay: 5m
+          history: 7d
+          description: 'The total number of DNSSEC NX validation successfully completed.'
+          tags:
+            - tag: Application
+              value: 'DNSSEC Validation Statistics'
+        - uuid: 749c04e99630451e8d73dc01ecd21614
+          name: 'The total number of DNSSEC validation successfully completed'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.4.2.3.1.3.14.114.101.115.95.118.97.108.115.117.99.99.101.115.115
+          key: eipDnsStatValue.res_valsuccess
+          delay: 5m
+          history: 7d
+          description: 'The total number of DNSSEC validation successfully completed'
+          tags:
+            - tag: Application
+              value: 'DNSSEC Validation Statistics'
+        - uuid: 9ffc575cef024ba6b97704612a523694
+          name: 'The number of queries the server failed to complete'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.8.115.101.114.118.102.97.105.108
+          key: eipDnsStatValue.servfail
+          delay: 5m
+          history: 7d
+          description: |
+            The number of queries the server failed to complete, returning the message SERVFAIL
+            (RCODE: 2).
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+        - uuid: 8c380e282ace4a41a372f6c4c4fc6af3
+          name: 'The number of queries completed successfully'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.7.115.117.99.99.101.115.115
+          key: eipDnsStatValue.success
+          delay: 5m
+          history: 7d
+          description: |
+            The number of queries completed successfully, returning the message NOERROR (RCODE:
+            0)
+          preprocessing:
+            - type: CHANGE_PER_SECOND
+              parameters:
+                - ''
+          tags:
+            - tag: Application
+              value: 'DNS Answers Statistics'
+          triggers:
+            - uuid: 094fa3fe046e43d79c75300c26a25013
+              expression: 'last(/Template Efficient IP SNMP/eipDnsStatValue.success)<40'
+              name: 'The number of queries completed successfully less than 40'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              manual_close: 'YES'
+        - uuid: 454d446c1a8b498bb2555c3bedd8db6f
+          name: 'The number of queries received through TCP'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.3.116.99.112
+          key: eipDnsStatValue.tcp
+          delay: 5m
+          history: 7d
+          description: 'The number of queries received through TCP'
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+        - uuid: 6eac7122af274aa8a7c68fd7130c683e
+          name: 'The number of queries received through UDP'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.4.2.3.1.3.3.117.100.112
+          key: eipDnsStatValue.udp
+          delay: 5m
+          history: 7d
+          description: 'The number of queries received through UDP'
+          tags:
+            - tag: Application
+              value: 'DNS Service'
+        - uuid: 832d2d0e79e9406eac7870ed0b178609
+          name: 'The number of transfer queries successfully completed'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.4.2.3.1.3.7.120.102.114.100.111.110.101
+          key: eipDnsStatValue.xfrdone
+          delay: 5m
+          history: 7d
+          description: 'The number of transfer queries successfully completed'
+          tags:
+            - tag: Application
+              value: 'DNS Transfer Requests Statistics'
+        - uuid: 16b7b8dca63449f5be29e6ac0c96273d
+          name: 'The number of recursive queries with latency < 10ms'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.4.2.3.1.3.13.114.101.115.95.113.117.101.114.121.114.116.116.48
+          key: eipDnsStatValue_res_queryrtt0
+          delay: 5m
+          history: 7d
+          description: 'The number of recursive queries with latency < 10ms'
+          tags:
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+        - uuid: adfcc763d19845e8991b611cb8f4b17f
+          name: 'DHCP Service'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.16.6.1.0
+          key: eipSvcDhcpStatus
+          delay: 5m
+          history: 7d
+          description: |
+            Service Status
+            
+            0 : service is disabled
+            1 : service is running
+            2 : service is misconfigured (running but disabled)
+            3 : service execution failed (enabled but not running)
+          valuemap:
+            name: 'EfficientIP service status'
+          tags:
+            - tag: Application
+              value: DHCP
+            - tag: Application
+              value: 'Service Status'
+          triggers:
+            - uuid: 61185b20a2a14bb6a4450af9f0d419da
+              expression: 'last(/Template Efficient IP SNMP/eipSvcDhcpStatus)<>1'
+              name: 'DHCP service is not working on {HOST.NAME}'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              description: |
+                0 : service is disabled
+                1 : service is running
+                2 : service is misconfigured (running but disabled)
+                3 : service execution failed (enabled but not running)
+              manual_close: 'YES'
+        - uuid: 63e4462d37de4f8eb0d1093bb6f20abf
+          name: 'DNS Service'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.16.8.1.0
+          key: eipSvcDnsStatus
+          delay: 5m
+          history: 7d
+          description: |
+            Service Status
+            
+            0 : service is disabled
+            1 : service is running
+            2 : service is misconfigured (running but disabled)
+            3 : service execution failed (enabled but not running)
+          valuemap:
+            name: 'EfficientIP service status'
+          tags:
+            - tag: Application
+              value: DNS
+            - tag: Application
+              value: 'Service Status'
+          triggers:
+            - uuid: 49569d625be04427ad77ad475ac500d1
+              expression: 'last(/Template Efficient IP SNMP/eipSvcDnsStatus)<>1'
+              name: 'DNS service is not working on {HOST.NAME)'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              description: |
+                0 : service is disabled
+                1 : service is running
+                2 : service is misconfigured (running but disabled)
+                3 : service execution failed (enabled but not running)
+              manual_close: 'YES'
+        - uuid: 1dc848be64004d628e1b55e29d08ddb8
+          name: 'NTP Service'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.16.11.1.0
+          key: eipSvcNtpStatus
+          delay: 5m
+          history: 7d
+          description: |
+            Service Status
+            
+            0 : service is disabled
+            1 : service is running
+            2 : service is misconfigured (running but disabled)
+            3 : service execution failed (enabled but not running)
+          valuemap:
+            name: 'EfficientIP service status'
+          tags:
+            - tag: Application
+              value: NTP
+            - tag: Application
+              value: 'Service Status'
+          triggers:
+            - uuid: 3f094300f90847ffbfeff4ac165fc987
+              expression: 'last(/Template Efficient IP SNMP/eipSvcNtpStatus)<>1'
+              name: 'NTP service is not working on {HOST.NAME}'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              description: |
+                0 : service is disabled
+                1 : service is running
+                2 : service is misconfigured (running but disabled)
+                3 : service execution failed (enabled but not running)
+              manual_close: 'YES'
+        - uuid: 8ce90a24103449bcbcc3b5662dc10d8f
+          name: 'SNMP Service'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.2440.1.16.13.1.0
+          key: eipSvcSnmpStatus
+          delay: 5m
+          history: 7d
+          description: |
+            Service Status
+            
+            0 : service is disabled
+            1 : service is running
+            2 : service is misconfigured (running but disabled)
+            3 : service execution failed (enabled but not running)
+          valuemap:
+            name: 'EfficientIP service status'
+          tags:
+            - tag: Application
+              value: 'Service Status'
+            - tag: Application
+              value: SNMP
+          triggers:
+            - uuid: 8dfb61fd1139445186c42ad1eff6f1f0
+              expression: 'last(/Template Efficient IP SNMP/eipSvcSnmpStatus)<>1'
+              name: 'SNMP service is not working on {HOST.NAME}'
+              opdata: 'Value: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              description: |
+                0 : service is disabled
+                1 : service is running
+                2 : service is misconfigured (running but disabled)
+                3 : service execution failed (enabled but not running)
+              manual_close: 'YES'
+        - uuid: 5e81b139c593412984f53d7403a2fb06
+          name: 'The number of recursive queries with latency >= 100ms & < 500ms'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2440.1.4.2.3.1.3.13.114.101.115.95.113.117.101.114.121.114.116.116.50
+          key: res_queryrtt2
+          delay: 5m
+          history: 7d
+          description: 'The number of recursive queries with latency >= 100ms & < 500ms'
+          tags:
+            - tag: Application
+              value: 'DNS Resolution Queries Statistics'
+      valuemaps:
+        - uuid: 9588c71f07f64e0da496f6544aa9f0bc
+          name: 'EfficientIP service status'
+          mappings:
+            - value: '0'
+              newvalue: disabled
+            - value: '1'
+              newvalue: running
+            - value: '2'
+              newvalue: misconfigured
+            - value: '3'
+              newvalue: failed
