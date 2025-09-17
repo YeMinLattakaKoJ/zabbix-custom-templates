@@ -5,18 +5,6 @@ These templates are designed to extend Zabbix’s default capabilities and provi
 
 ---
 
-## 📡 Templates Included
-
-### 1. Template
-A general-purpose template for monitoring routers, switches, firewalls, and other network appliances.
-
----
-
-### 2. Custom Template(s)
-Custom templates tailored for specific use cases.
-
----
-
 ## 🛠 Requirements
 - **Zabbix 6.0+** (tested; may also work on newer versions)
 - SNMP enabled on network devices (for Network Device Template)
