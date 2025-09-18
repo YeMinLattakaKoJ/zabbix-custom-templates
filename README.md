@@ -59,7 +59,4 @@ They extend Zabbix’s default capabilities with extra items, triggers, and grap
 ## 🤝 Contributing
 
 I welcome contributions!  
-If you have your own Zabbix templates, feel free to fork, add them under the right category, and submit a pull request.  
-
-MIT License – you are free to use, modify, and share these templates.  
-See [LICENSE](LICENSE) for details.
+If you have your own Zabbix templates, feel free to fork, add them under the right category, and submit a pull request. 
